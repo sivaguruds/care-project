@@ -68,3 +68,29 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+/abstracts
+  _functions.scss
+  _global.scss
+  _mixins.scss
+  _variables.scss
+/base
+  _fonts.scss
+  _general.scss
+  _global.scss
+  _typography.scss
+/components
+  _header.scss
+  _form.scss
+  _buttons.scss
+  ...
+/vendor
+  _bootstrap.scss
+  _normalize.scss
+/pages
+  auth.scss
+  homepage.scss
+  ...
+
+  https://medium.com/@luis_sserrano/how-to-structure-your-sass-codebase-78277c683c24
