@@ -15,10 +15,10 @@ const routes = () => {
     return (
         <Router>
             <Switch>
-                <Route exact path='/'>
+                <Route  path='/'>
                     <LoginLayout>
                         <Switch>
-                            <Route  path='/' component={LoginPage}/>
+                            <Route exact  path='/' component={LoginPage}/>
                             <Route  path='/forgotPassword' exact component={ForgotPage}/>
                         </Switch>
                     </LoginLayout>

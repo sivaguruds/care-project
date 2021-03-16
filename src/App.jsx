@@ -5,7 +5,6 @@ function App() {
   return (
     <div className="App">
       <Routers />
-      <h1>sivaguru</h1>
     </div>
   );
 }
