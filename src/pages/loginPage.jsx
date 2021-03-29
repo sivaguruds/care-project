@@ -1,5 +1,5 @@
 import React,  {useState} from 'react';
-import _ from "lodash/fp";
+import AccountApi from '../services/api/account/accountAll';
 import { useForm } from "react-hook-form";
 import { makeStyles } from '@material-ui/core/styles';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -45,6 +45,7 @@ const loginStyle = makeStyles((theme) => ({
 
 
 const LoginPage = () => {
+    
     // MESSAGES
     const required = "This field is required";
     const emailPattern = "Please enter a valid email address.";
@@ -63,7 +64,7 @@ const LoginPage = () => {
 
     const classes = loginStyle();
     const [login, setLogin] = useState (initialValue);
-    const { register, handleSubmit, watch, errors } = useForm();
+    const { register, handleSubmit, errors } = useForm();
 
     // INPUT CHANGE FUNCTIONS
     const handleInputChange = event => {
@@ -78,7 +79,17 @@ const LoginPage = () => {
 
     // LOGIN FUNCTIONS
     const onSubmit = data => {
-        console.log(data);
+       let requestData = {
+            email: data.userName,
+            password: data.password,
+       }
+       AccountApi.login(requestData)
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(e => {
+        console.log(e);
+      });
     }
 
 
