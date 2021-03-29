@@ -9,7 +9,6 @@ import LoginPage from '../pages/loginPage';
 import ForgotPage from '../pages/forgotPage';
 
 
-
 // ROUTER FUNCTIONS
 const routes = () => {
     return (
