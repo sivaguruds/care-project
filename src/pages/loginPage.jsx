@@ -1,4 +1,5 @@
 import React,  {useState} from 'react';
+import { useHistory } from "react-router-dom";
 import AccountApi from '../services/api/account/accountAll';
 import { useForm } from "react-hook-form";
 import { makeStyles } from '@material-ui/core/styles';
@@ -62,6 +63,7 @@ const LoginPage = () => {
         rember: '',
     };
 
+    let history = useHistory ();
     const classes = loginStyle();
     const [login, setLogin] = useState (initialValue);
     const { register, handleSubmit, errors } = useForm();
@@ -77,6 +79,11 @@ const LoginPage = () => {
         setLogin({ ...login, showPassword: !login.showPassword});
     }
 
+    const pageChange =() => {
+        let path = "/admin/gravityProfile";
+        history.push(path);
+    }
+
     // LOGIN FUNCTIONS
     const onSubmit = data => {
        let requestData = {
@@ -85,7 +92,27 @@ const LoginPage = () => {
        }
        AccountApi.login(requestData)
       .then(response => {
-        console.log(response.data);
+        
+        // LOCAL STORGE AUTH_TOKEN
+        localStorage.setItem("auth_token", response.data.authToken);
+
+        // LOCAL STORGE USER
+        let userInfo = response.data.user;
+        localStorage.setItem("user_info", JSON.stringify(userInfo));
+
+        // LOCAL STORGE USER ID
+        localStorage.setItem("user_id", userInfo.userId);
+
+        //LOCAL STORAGE ORGANIZATION TYPE
+        localStorage.setItem("org_type", userInfo.organizationType);
+
+        
+
+        if(userInfo.userRole[0].tag === "GA"){
+            console.log('user role', userInfo.userRole[0].tag);
+            pageChange ();
+        }
+
       })
       .catch(e => {
         console.log(e);
@@ -102,7 +129,7 @@ const LoginPage = () => {
                 Sign in
             </Typography>
             <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
-
+                
                 {/* USER NAME */}
                 <FormControl variant="outlined" fullWidth className={classes.formInput}>
                     <InputLabel htmlFor="userName">User Name</InputLabel>

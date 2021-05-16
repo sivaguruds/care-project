@@ -6,14 +6,14 @@ const login = (data) => {
 };
 
 // SAMPLE GET API
-const get = (id) => {
-    return account.get(`/tutorials/${id}`);
+const gravityProfileGet = (id) => {
+    return account.get(`/api/v1/admins/profiles/${id}`);
 };
 
 
 const accountService = {
     login,
-    get
+    gravityProfileGet
 };
 
 export default accountService;
