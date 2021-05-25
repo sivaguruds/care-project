@@ -2,13 +2,14 @@ import React from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 
 // Layouts
-import LoginLayout from '../layouts/loginLayout';
-import UserLayout from '../layouts/userLayout';
+import LoginLayout from '../layouts/login/loginLayout';
+import UserLayout from '../layouts/user/userLayout';
 
 // Pages
 import LoginPage from '../pages/loginPage';
 import ForgotPage from '../pages/forgotPage';
 import GravityProfile from '../pages/profile/gravityAdmin/myProfile';
+import DoctorList from '../pages/manageDoctor/gravityAdmin/DoctorList';
 
 
 // ROUTER FUNCTIONS
@@ -28,6 +29,7 @@ const routes = () => {
                     <UserLayout>
                         <Switch>
                             <Route path='/admin/gravityProfile' exact component={GravityProfile}/>
+                            <Route path='/admin/doctorList' exact component={DoctorList}/>
                         </Switch>
                     </UserLayout>
                 </Route>

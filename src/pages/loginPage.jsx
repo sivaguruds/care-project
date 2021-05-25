@@ -3,12 +3,16 @@ import { useHistory } from "react-router-dom";
 import AccountApi from '../services/api/account/accountAll';
 import { useForm } from "react-hook-form";
 import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import Link from '@material-ui/core/Link';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { 
         Typography, 
         Avatar, 
         FormControl, 
-        FormHelperText, 
+        FormHelperText,
+        FormControlLabel,
+        Checkbox,
         InputLabel, 
         OutlinedInput,
         InputAdornment,
@@ -18,6 +22,8 @@ import {
 from '@material-ui/core';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+
+import BackLoad from '../components/BackLoad'
 
 const loginStyle = makeStyles((theme) => ({
     avatar: {
@@ -34,15 +40,21 @@ const loginStyle = makeStyles((theme) => ({
         flexDirection: 'column',
         alignItems: 'center',
     },
+    submit: {
+        margin: theme.spacing(3, 0, 4)
+    },
     formInput: {
-        marginBottom: '15px'
+        marginBottom: '10px'
     },
     invalidFeedback: {
         color: 'red'
-    }
+    },
+    backdrop: {
+        zIndex: theme.zIndex.drawer + 1,
+        color: '#fff',
+    },
     
 }));
-
 
 
 const LoginPage = () => {
@@ -66,6 +78,7 @@ const LoginPage = () => {
     let history = useHistory ();
     const classes = loginStyle();
     const [login, setLogin] = useState (initialValue);
+    const [open, setOpen] = React.useState(false);
     const { register, handleSubmit, errors } = useForm();
 
     // INPUT CHANGE FUNCTIONS
@@ -80,19 +93,19 @@ const LoginPage = () => {
     }
 
     const pageChange =() => {
-        let path = "/admin/gravityProfile";
+        let path = "/admin/doctorList";
         history.push(path);
     }
 
     // LOGIN FUNCTIONS
     const onSubmit = data => {
+       setOpen(true) 
        let requestData = {
             email: data.userName,
             password: data.password,
        }
        AccountApi.login(requestData)
       .then(response => {
-        
         // LOCAL STORGE AUTH_TOKEN
         localStorage.setItem("auth_token", response.data.authToken);
 
@@ -106,16 +119,17 @@ const LoginPage = () => {
         //LOCAL STORAGE ORGANIZATION TYPE
         localStorage.setItem("org_type", userInfo.organizationType);
 
-        
-
+        setOpen(false);
+       
         if(userInfo.userRole[0].tag === "GA"){
             console.log('user role', userInfo.userRole[0].tag);
             pageChange ();
         }
 
       })
-      .catch(e => {
-        console.log(e);
+      .catch((error) => {
+          console.log(error.response.data.message)
+        setOpen(false);
       });
     }
 
@@ -146,6 +160,7 @@ const LoginPage = () => {
 
                 {/* PASSWORD */}
                 <FormControl variant="outlined" fullWidth className={classes.formInput}>
+
                     <InputLabel htmlFor="userName">Password</InputLabel>
                     <OutlinedInput type={login.showPassword ? 'text' : 'password'} id="password" name="password" value={login.password} label="Password" onChange={handleInputChange} endAdornment={
                         <InputAdornment position="end">
@@ -164,11 +179,30 @@ const LoginPage = () => {
                         errorMessage(required)}
                     </FormHelperText>
                 </FormControl>
+                
+                <FormControlLabel
+                control={<Checkbox value={login.rember} color="primary" />}
+                label="Remember me"
+                />
 
                 {/* LOGIN BUTTON */}
-                <Button type="submit" variant="contained" size="large" fullWidth color="primary">Login</Button>
+                <Button type="submit" className={classes.submit} variant="contained" size="large" fullWidth color="primary">Login</Button>
+
+                <Grid container>
+                    <Grid item xs>
+                        <Link href="#" variant="body2">
+                        Forgot password?
+                        </Link>
+                    </Grid>
+                    <Grid item>
+                        <Link href="#" variant="body2">
+                        {"Don't have an account? Sign Up"}
+                        </Link>
+                    </Grid>
+                </Grid>
 
             </form>
+            <BackLoad open={open}/>
         </div>
     );
 }
