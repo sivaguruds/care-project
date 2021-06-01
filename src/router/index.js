@@ -10,6 +10,7 @@ import LoginPage from '../pages/loginPage';
 import ForgotPage from '../pages/forgotPage';
 import GravityProfile from '../pages/profile/gravityAdmin/myProfile';
 import DoctorList from '../pages/manageDoctor/gravityAdmin/DoctorList';
+import CreateDoctor from '../pages/manageDoctor/gravityAdmin/CreateDoctor';
 
 
 // ROUTER FUNCTIONS
@@ -30,6 +31,7 @@ const routes = () => {
                         <Switch>
                             <Route path='/admin/gravityProfile' exact component={GravityProfile}/>
                             <Route path='/admin/doctorList' exact component={DoctorList}/>
+                            <Route path='/admin/createDoctor' exact component={CreateDoctor}/>
                         </Switch>
                     </UserLayout>
                 </Route>
